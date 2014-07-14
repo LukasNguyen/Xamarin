@@ -1,0 +1,22 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="POIDetailActivity.cs">
+    <Files>
+      <File FileName="POIListActivity.cs" Line="34" Column="10" />
+      <File FileName="PointOfInterest.cs" Line="1" Column="1" />
+      <File FileName="IPOIDataService.cs" Line="1" Column="1" />
+      <File FileName="POIJsonService.cs" Line="1" Column="1" />
+      <File FileName="POIData.cs" Line="1" Column="1" />
+      <File FileName="POIListViewAdapter.cs" Line="1" Column="1" />
+      <File FileName="Resources\menu\POIListViewMenu.xml" Line="1" Column="66" />
+      <File FileName="POIDetailActivity.cs" Line="74" Column="31" />
+      <File FileName="Resources\menu\POIDetailMenu.xml" Line="6" Column="24" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.POIApp MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.POITestApp AndroidDeviceId-Debug="emulator-5554" />
+</Properties>
