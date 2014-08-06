@@ -66,6 +66,20 @@ namespace POIApp
             return base.OnCreateOptionsMenu(menu);
         }
 
+        public override bool OnPrepareOptionsMenu(IMenu menu)
+        {
+            base.OnPrepareOptionsMenu(menu);
+
+            // disable delete for new POI
+            if (!_poi.Id.HasValue)
+            {
+                IMenuItem item = menu.FindItem(Resource.Id.actionDelete);
+                item.SetEnabled(false);
+            }
+
+            return true;
+        }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -85,12 +99,64 @@ namespace POIApp
 
         protected void SavePOI()
         {
+            var errors = validateNewPOI();
 
+            if (!errors)
+            {
+                _poi.Name = _nameEditText.Text;
+                _poi.Description = _descEditText.Text;
+                _poi.Address = _addrEditText.Text;
+                _poi.Latitude = Double.Parse(_latEditText.Text);
+                _poi.Longitude = Double.Parse(_longEditText.Text);
+
+                POIData.Service.SavePOI(_poi);
+                Finish();
+            }
+        }
+
+        private bool validateNewPOI()
+        {
+            var errorsFound = false;
+
+            if (String.IsNullOrWhiteSpace(_nameEditText.Text))
+            {
+                _nameEditText.Error = "Name cannot be empty";
+                errorsFound = true;
+            }
+            else
+                _nameEditText.Error = null;
+
+            var tempLatLong = 0.0d;
+            if (!String.IsNullOrWhiteSpace(_latEditText.Text))
+            {
+                var isDouble = Double.TryParse(_latEditText.Text, out tempLatLong);
+                if (!isDouble || tempLatLong > 90 || tempLatLong < -90)
+                {
+                    _latEditText.Error = "Latitude must be a decimal value between -90 and 90";
+                    errorsFound = true;
+                }
+                else
+                    _latEditText.Error = null;
+            }
+            if (!String.IsNullOrWhiteSpace(_longEditText.Text))
+            {
+                var isDouble = Double.TryParse(_longEditText.Text, out tempLatLong);
+                if (!isDouble || tempLatLong > 180 || tempLatLong < -180)
+                {
+                    _longEditText.Error = "Longitude must be a decimal valude between -180 and 180";
+                    errorsFound = true;
+                }
+                else
+                    _longEditText.Error = null;
+            }
+
+            return errorsFound;
         }
 
         protected void DeletePOI()
         {
-
+            POIData.Service.DeletePOI(_poi);
+            Finish();
         }
     }
 }
