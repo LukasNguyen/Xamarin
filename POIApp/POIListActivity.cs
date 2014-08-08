@@ -49,10 +49,17 @@ namespace POIApp
             }
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            _listViewAdapter.NotifyDataSetChanged();
+        }
+
         protected void OnPOIClicked(object sender, ListView.ItemClickEventArgs e)
         {
             var poi = POIData.Service.GetPOI((int)e.Id);
-            Console.WriteLine("POICliecked: Name is {0}", poi.Name);
+            Console.WriteLine("POIClicked: Name is {0}", poi.Name);
 
             var poiDetailIntent = new Intent(this, typeof(POIDetailActivity));
             poiDetailIntent.PutExtra("poiId", poi.Id.Value);

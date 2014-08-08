@@ -110,6 +110,10 @@ namespace POIApp
                 _poi.Longitude = Double.Parse(_longEditText.Text);
 
                 POIData.Service.SavePOI(_poi);
+
+                var toast = Toast.MakeText(this, String.Format("{0} saved.", _poi.Name), ToastLength.Short);
+                toast.Show();
+
                 Finish();
             }
         }
@@ -155,7 +159,22 @@ namespace POIApp
 
         protected void DeletePOI()
         {
+            var alertConfirm = new AlertDialog.Builder(this);
+            alertConfirm.SetCancelable(true);
+            alertConfirm.SetPositiveButton("OK", ConfirmDelete);
+            alertConfirm.SetNegativeButton("Cancel", delegate {});
+            alertConfirm.SetMessage(String.Format("Are you sure you want to delete {0}?", _poi.Name));
+
+            alertConfirm.Show();
+        }
+
+        private void ConfirmDelete(object sender, EventArgs e)
+        {
             POIData.Service.DeletePOI(_poi);
+
+            var toast = Toast.MakeText(this, String.Format("{0} deleted.", _poi.Name), ToastLength.Short);
+            toast.Show();
+
             Finish();
         }
     }
