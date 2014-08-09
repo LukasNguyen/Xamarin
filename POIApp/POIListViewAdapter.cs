@@ -6,6 +6,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -16,6 +17,8 @@ namespace POIApp
     public class POIListViewAdapter : BaseAdapter<PointOfInterest>
     {
         private readonly Activity _context;
+
+        public Location CurrentLocation { get; set; }
 
         public POIListViewAdapter(Activity context)
         {
@@ -51,6 +54,18 @@ namespace POIApp
                 view.FindViewById<TextView>(Resource.Id.addressTextView).Visibility = ViewStates.Gone;
             else
                 view.FindViewById<TextView>(Resource.Id.addressTextView).Text = poi.Address;
+
+            if (CurrentLocation != null && poi.Latitude.HasValue && poi.Longitude.HasValue)
+            {
+                var poiLocation = new Location(String.Empty);
+                poiLocation.Latitude = poi.Latitude.Value;
+                poiLocation.Longitude = poi.Longitude.Value;
+                float distance = CurrentLocation.DistanceTo(poiLocation) * 0.000621371F; // this magic number converts from meters to miles
+
+                view.FindViewById<TextView>(Resource.Id.distanceTextView).Text = String.Format("{0:0,0.00} miles", distance);
+            }
+            else
+                view.FindViewById<TextView>(Resource.Id.distanceTextView).Text = "??";
 
             return view;
         }
