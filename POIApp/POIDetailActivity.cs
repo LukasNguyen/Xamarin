@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
+using Android.Provider;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -25,11 +26,14 @@ namespace POIApp
         private ImageView _poiImageView;
         private ImageButton _locationImageButton;
         private ImageButton _mapImageButton;
+        private ImageButton _photoImageButton;
 
         private PointOfInterest _poi;
         private LocationManager _locationManager;
         private bool _obtainingLocation;
         private ProgressDialog _progressDialog;
+
+        private const int REQUEST_CODE_CAPTURE_PHOTO = 0;
 
         #region Activity overrides
 
@@ -49,6 +53,8 @@ namespace POIApp
             _locationImageButton.Click += GetLocationClicked;
             _mapImageButton = FindViewById<ImageButton>(Resource.Id.mapImageButton);
             _mapImageButton.Click += MapClicked;
+            _photoImageButton = FindViewById<ImageButton>(Resource.Id.photoImageButton);
+            _photoImageButton.Click += NewPhotoClicked;
 
             _locationManager = GetSystemService(Context.LocationService) as LocationManager;
 
@@ -56,6 +62,11 @@ namespace POIApp
             {
                 var poiId = Intent.GetIntExtra("poiId", -1);
                 _poi = POIData.Service.GetPOI(poiId);
+
+                var poiImage = POIData.GetImageFile(_poi.Id.Value);
+                _poiImageView.SetImageBitmap(poiImage);
+                if (poiImage != null)
+                    poiImage.Dispose();
             }
             else
             {
@@ -127,6 +138,27 @@ namespace POIApp
                 default:
                     return base.OnOptionsItemSelected(item);
             }
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            if (requestCode == REQUEST_CODE_CAPTURE_PHOTO)
+            {
+                if (resultCode == Result.Ok)
+                {
+                    var poiImage = POIData.GetImageFile(_poi.Id.Value);
+                    _poiImageView.SetImageBitmap(poiImage);
+                    if (poiImage != null)
+                        poiImage.Dispose();
+                    else
+                    {
+                        var toast = Toast.MakeText(this, "No picture captured", ToastLength.Short);
+                        toast.Show();
+                    }
+                }
+            }
+            else
+                base.OnActivityResult(requestCode, resultCode, data);
         }
 
         #endregion
@@ -305,9 +337,46 @@ namespace POIApp
                 mapAlert.SetPositiveButton("OK", delegate {});
                 mapAlert.SetMessage("No map app available");
                 mapAlert.Show();
+
+                return;
             }
-            else
-                StartActivity(mapIntent);
+
+            StartActivity(mapIntent);
+        }
+
+        private void NewPhotoClicked(object sender, EventArgs e)
+        {
+            if (!_poi.Id.HasValue)
+            {
+                var photoAlert = new AlertDialog.Builder(this);
+                photoAlert.SetCancelable(false);
+                photoAlert.SetPositiveButton("OK", delegate {});
+                photoAlert.SetMessage("You must save the POI prior to attaching a photo");
+                photoAlert.Show();
+
+                return;
+            }
+
+            var cameraIntent = new Intent(MediaStore.ActionImageCapture);
+            var activities = PackageManager.QueryIntentActivities(cameraIntent, 0);
+            if (!activities.Any())
+            {
+                var photoAlert = new AlertDialog.Builder(this);
+                photoAlert.SetCancelable(false);
+                photoAlert.SetPositiveButton("OK", delegate {});
+                photoAlert.SetMessage("No camera app available to capture photos");
+                photoAlert.Show();
+
+                return;
+            }
+
+            var imageFile = new Java.IO.File(POIData.Service.GetImageFilename(_poi.Id.Value));
+            var imageUri = Android.Net.Uri.FromFile(imageFile);
+
+            cameraIntent.PutExtra(MediaStore.ExtraOutput, imageUri);
+            cameraIntent.PutExtra(MediaStore.ExtraSizeLimit, 1.5 * 1024);
+
+            StartActivityForResult(cameraIntent, REQUEST_CODE_CAPTURE_PHOTO);
         }
     }
 }

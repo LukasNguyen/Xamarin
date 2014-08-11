@@ -81,8 +81,7 @@
             p1:layout_height="wrap_content"
             p1:id="@+id/linearLayout2"
             p1:layout_gravity="center_horizontal"
-            p1:paddingTop="10dp"
-            p1:paddingBottom="10dp">
+            p1:paddingTop="10dp">
             <ImageButton
                 p1:src="@drawable/ic_locate"
                 p1:layout_width="wrap_content"
@@ -93,6 +92,18 @@
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
                 p1:id="@+id/mapImageButton" />
+            <ImageButton
+                p1:src="@drawable/ic_new_picture"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/photoImageButton" />
         </LinearLayout>
+        <ImageView
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/poiImageView"
+            p1:layout_gravity="center_horizontal"
+            p1:scaleType="fitCenter" />
     </LinearLayout>
 </ScrollView>

@@ -76,6 +76,7 @@
     <AndroidResource Include="Resources\drawable\ic_save.png" />
     <AndroidResource Include="Resources\drawable\ic_locate.png" />
     <AndroidResource Include="Resources\drawable\ic_map.png" />
+    <AndroidResource Include="Resources\drawable\ic_new_picture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

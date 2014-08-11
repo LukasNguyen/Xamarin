@@ -67,6 +67,11 @@ namespace POIApp
             else
                 view.FindViewById<TextView>(Resource.Id.distanceTextView).Text = "??";
 
+            var poiImage = POIData.GetImageFile(poi.Id.Value);
+            view.FindViewById<ImageView>(Resource.Id.poiImageView).SetImageBitmap(poiImage);
+            if (poiImage != null)
+                poiImage.Dispose();
+
             return view;
         }
 

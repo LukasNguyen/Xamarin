@@ -24,6 +24,11 @@ namespace POIApp
 
 		#region IPOIDataService implementation
 
+        public System.Collections.Generic.IReadOnlyList<PointOfInterest> POIs
+        {
+            get { return _pois; }
+        }
+
 		public void RefreshCache()
 		{
 			_pois.Clear();
@@ -61,14 +66,19 @@ namespace POIApp
 
 		public void DeletePOI(PointOfInterest poi)
 		{
-			File.Delete(getFilename(poi.Id.Value));
+            if (File.Exists(getFilename(poi.Id.Value)))
+                File.Delete(getFilename(poi.Id.Value));
+
+            if (File.Exists(GetImageFilename(poi.Id.Value)))
+                File.Delete(GetImageFilename(poi.Id.Value));
+
 			_pois.Remove(poi);
 		}
 
-		public System.Collections.Generic.IReadOnlyList<PointOfInterest> POIs
-		{
-			get { return _pois; }
-		}
+        public string GetImageFilename(int id)
+        {
+            return Path.Combine(_storagePath, "poiimage" + id.ToString() + ".jpg");
+        }
 
 		#endregion
 

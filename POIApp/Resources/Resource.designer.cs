@@ -60,10 +60,13 @@ namespace POIApp
 			public const int ic_new = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int ic_refresh = 2130837509;
+			public const int ic_new_picture = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int ic_save = 2130837510;
+			public const int ic_refresh = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int ic_save = 2130837511;
 			
 			static Drawable()
 			{
@@ -78,29 +81,29 @@ namespace POIApp
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060019
-			public const int actionDelete = 2131099673;
-			
 			// aapt resource value: 0x7f06001a
-			public const int actionNew = 2131099674;
+			public const int actionDelete = 2131099674;
 			
 			// aapt resource value: 0x7f06001b
-			public const int actionRefresh = 2131099675;
+			public const int actionNew = 2131099675;
 			
-			// aapt resource value: 0x7f060018
-			public const int actionSave = 2131099672;
+			// aapt resource value: 0x7f06001c
+			public const int actionRefresh = 2131099676;
+			
+			// aapt resource value: 0x7f060019
+			public const int actionSave = 2131099673;
 			
 			// aapt resource value: 0x7f060007
 			public const int addrEditText = 2131099655;
 			
-			// aapt resource value: 0x7f060016
-			public const int addressTextView = 2131099670;
+			// aapt resource value: 0x7f060017
+			public const int addressTextView = 2131099671;
 			
 			// aapt resource value: 0x7f060005
 			public const int descEditText = 2131099653;
 			
-			// aapt resource value: 0x7f060017
-			public const int distanceTextView = 2131099671;
+			// aapt resource value: 0x7f060018
+			public const int distanceTextView = 2131099672;
 			
 			// aapt resource value: 0x7f06000d
 			public const int latEditText = 2131099661;
@@ -123,17 +126,20 @@ namespace POIApp
 			// aapt resource value: 0x7f060003
 			public const int nameEditText = 2131099651;
 			
-			// aapt resource value: 0x7f060015
-			public const int nameTextView = 2131099669;
-			
-			// aapt resource value: 0x7f060014
-			public const int poiImageView = 2131099668;
+			// aapt resource value: 0x7f060016
+			public const int nameTextView = 2131099670;
 			
 			// aapt resource value: 0x7f060012
-			public const int poiListView = 2131099666;
+			public const int photoImageButton = 2131099666;
 			
 			// aapt resource value: 0x7f060013
-			public const int relativeLayout1 = 2131099667;
+			public const int poiImageView = 2131099667;
+			
+			// aapt resource value: 0x7f060014
+			public const int poiListView = 2131099668;
+			
+			// aapt resource value: 0x7f060015
+			public const int relativeLayout1 = 2131099669;
 			
 			// aapt resource value: 0x7f060000
 			public const int scrollView1 = 2131099648;

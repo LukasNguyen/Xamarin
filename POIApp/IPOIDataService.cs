@@ -14,5 +14,7 @@ namespace POIApp
 		void SavePOI(PointOfInterest poi);
 
 		void DeletePOI(PointOfInterest poi);
+
+        string GetImageFilename(int id);
 	}
 }
