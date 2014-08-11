@@ -24,6 +24,7 @@ namespace POIApp
         private EditText _longEditText;
         private ImageView _poiImageView;
         private ImageButton _locationImageButton;
+        private ImageButton _mapImageButton;
 
         private PointOfInterest _poi;
         private LocationManager _locationManager;
@@ -46,6 +47,8 @@ namespace POIApp
             _poiImageView = FindViewById<ImageView>(Resource.Id.poiImageView);
             _locationImageButton = FindViewById<ImageButton>(Resource.Id.locationImageButton);
             _locationImageButton.Click += GetLocationClicked;
+            _mapImageButton = FindViewById<ImageButton>(Resource.Id.mapImageButton);
+            _mapImageButton.Click += MapClicked;
 
             _locationManager = GetSystemService(Context.LocationService) as LocationManager;
 
@@ -282,6 +285,29 @@ namespace POIApp
             var lastKnown = _locationManager.GetLastKnownLocation(provider);
             _latEditText.Text = lastKnown.Latitude.ToString();
             _longEditText.Text = lastKnown.Longitude.ToString();
+        }
+
+        private void MapClicked(object sender, EventArgs e)
+        {
+            Android.Net.Uri geoUri;
+            if (String.IsNullOrWhiteSpace(_addrEditText.Text))
+                geoUri = Android.Net.Uri.Parse(String.Format("geo:{0},{1}", _poi.Latitude, _poi.Longitude));
+            else
+                geoUri = Android.Net.Uri.Parse(String.Format("geo:0,0?q={0}", _addrEditText.Text));
+
+            var mapIntent = new Intent(Intent.ActionView, geoUri);
+
+            var activities = PackageManager.QueryIntentActivities(mapIntent, 0);
+            if (!activities.Any())
+            {
+                var mapAlert = new AlertDialog.Builder(this);
+                mapAlert.SetCancelable(false);
+                mapAlert.SetPositiveButton("OK", delegate {});
+                mapAlert.SetMessage("No map app available");
+                mapAlert.Show();
+            }
+            else
+                StartActivity(mapIntent);
         }
     }
 }
