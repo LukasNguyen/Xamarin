@@ -27,6 +27,7 @@ namespace POIApp
 
         private PointOfInterest _poi;
         private LocationManager _locationManager;
+        private bool _obtainingLocation;
         private ProgressDialog _progressDialog;
 
         #region Activity overrides
@@ -66,6 +67,26 @@ namespace POIApp
             base.OnPause();
 
             _locationManager.RemoveUpdates(this);
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+
+            outState.PutBoolean("obtainingLocation", _obtainingLocation);
+
+            if (_obtainingLocation)
+                _locationManager.RemoveUpdates(this);
+        }
+
+        protected override void OnRestoreInstanceState(Bundle savedInstanceState)
+        {
+            base.OnRestoreInstanceState(savedInstanceState);
+
+            _obtainingLocation = savedInstanceState.GetBoolean("obtainingLocation");
+
+            if (_obtainingLocation)
+                GetLocationClicked(this, new EventArgs());
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -121,6 +142,8 @@ namespace POIApp
 
             if (addresses.Any())
                 UpdateAddressFields(addresses.First());
+
+            _obtainingLocation = false;
         }
 
         public void OnProviderDisabled(string provider)
@@ -244,6 +267,7 @@ namespace POIApp
 
         private void GetLocationClicked(object sender, EventArgs e)
         {
+            _obtainingLocation = true;
             _progressDialog = ProgressDialog.Show(this, "", "Obtaining location...");
 
             var criteria = new Criteria

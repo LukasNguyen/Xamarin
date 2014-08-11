@@ -10,7 +10,7 @@ using Android.OS;
 
 namespace POIApp
 {
-    [Activity(Label = "POIs", MainLauncher = true)]
+    [Activity(Label = "POIs", MainLauncher = true, ConfigurationChanges = (Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize))]
     public class POIListActivity : Activity, ILocationListener
 	{
         private ListView _poiListView;
