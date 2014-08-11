@@ -74,6 +74,8 @@
     <AndroidResource Include="Resources\menu\POIDetailMenu.xml" />
     <AndroidResource Include="Resources\drawable\ic_delete.png" />
     <AndroidResource Include="Resources\drawable\ic_save.png" />
+    <AndroidResource Include="Resources\drawable\ic_locate.png" />
+    <AndroidResource Include="Resources\drawable\ic_map.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

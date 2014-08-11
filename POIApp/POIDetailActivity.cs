@@ -6,6 +6,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -14,7 +15,7 @@ using Android.Widget;
 namespace POIApp
 {
     [Activity(Label = "POI Detail")]			
-    public class POIDetailActivity : Activity
+    public class POIDetailActivity : Activity, ILocationListener
     {
         private EditText _nameEditText;
         private EditText _descEditText;
@@ -22,8 +23,13 @@ namespace POIApp
         private EditText _latEditText;
         private EditText _longEditText;
         private ImageView _poiImageView;
+        private ImageButton _locationImageButton;
 
         private PointOfInterest _poi;
+        private LocationManager _locationManager;
+        private ProgressDialog _progressDialog;
+
+        #region Activity overrides
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -37,6 +43,10 @@ namespace POIApp
             _latEditText = FindViewById<EditText>(Resource.Id.latEditText);
             _longEditText = FindViewById<EditText>(Resource.Id.longEditText);
             _poiImageView = FindViewById<ImageView>(Resource.Id.poiImageView);
+            _locationImageButton = FindViewById<ImageButton>(Resource.Id.locationImageButton);
+            _locationImageButton.Click += GetLocationClicked;
+
+            _locationManager = GetSystemService(Context.LocationService) as LocationManager;
 
             if (Intent.HasExtra("poiId"))
             {
@@ -51,13 +61,11 @@ namespace POIApp
             UpdateUI();
         }
 
-        protected void UpdateUI()
+        protected override void OnPause()
         {
-            _nameEditText.Text = _poi.Name;
-            _descEditText.Text = _poi.Description;
-            _addrEditText.Text = _poi.Address;
-            _latEditText.Text = _poi.Latitude.ToString();
-            _longEditText.Text = _poi.Longitude.ToString();
+            base.OnPause();
+
+            _locationManager.RemoveUpdates(this);
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -94,6 +102,62 @@ namespace POIApp
 
                 default:
                     return base.OnOptionsItemSelected(item);
+            }
+        }
+
+        #endregion
+
+        #region ILocationListener methods
+
+        public void OnLocationChanged(Location location)
+        {
+            _progressDialog.Cancel();
+
+            _latEditText.Text = location.Latitude.ToString();
+            _longEditText.Text = location.Longitude.ToString();
+
+            var geocoder = new Geocoder(this);
+            var addresses = geocoder.GetFromLocation(location.Latitude, location.Longitude, 5);
+
+            if (addresses.Any())
+                UpdateAddressFields(addresses.First());
+        }
+
+        public void OnProviderDisabled(string provider)
+        { }
+
+        public void OnProviderEnabled(string provider)
+        { }
+
+        public void OnStatusChanged(string provider, Availability status, Bundle extras)
+        { }
+
+        #endregion
+
+        protected void UpdateUI()
+        {
+            _nameEditText.Text = _poi.Name;
+            _descEditText.Text = _poi.Description;
+            _addrEditText.Text = _poi.Address;
+            _latEditText.Text = _poi.Latitude.ToString();
+            _longEditText.Text = _poi.Longitude.ToString();
+        }
+
+        private void UpdateAddressFields(Address address)
+        {
+            if (String.IsNullOrWhiteSpace(_nameEditText.Text))
+                _nameEditText.Text = address.FeatureName;
+
+            if (String.IsNullOrWhiteSpace(_addrEditText.Text))
+            {
+                for (int i = 0; i < address.MaxAddressLineIndex; i++)
+                {
+                    if (!String.IsNullOrWhiteSpace(_addrEditText.Text))
+                    {
+                        _addrEditText.Text += System.Environment.NewLine;
+                        _addrEditText.Text += address.GetAddressLine(i);
+                    }
+                }
             }
         }
 
@@ -176,6 +240,24 @@ namespace POIApp
             toast.Show();
 
             Finish();
+        }
+
+        private void GetLocationClicked(object sender, EventArgs e)
+        {
+            _progressDialog = ProgressDialog.Show(this, "", "Obtaining location...");
+
+            var criteria = new Criteria
+            {
+                Accuracy = Accuracy.NoRequirement,
+                PowerRequirement = Power.NoRequirement
+            };
+            var provider = _locationManager.GetBestProvider(criteria, true);
+
+            _locationManager.RequestSingleUpdate(provider, this, null);
+
+            var lastKnown = _locationManager.GetLastKnownLocation(provider);
+            _latEditText.Text = lastKnown.Latitude.ToString();
+            _longEditText.Text = lastKnown.Longitude.ToString();
         }
     }
 }
