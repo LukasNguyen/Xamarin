@@ -1,0 +1,32 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.HT381W904526" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RestaurantRater\Properties\AndroidManifest.xml">
+    <Files>
+      <File FileName="RestaurantRater\RestaurantListActivity.cs" Line="42" Column="42" />
+      <File FileName="RestaurantRater\RestaurantListViewAdapter.cs" Line="34" Column="34" />
+      <File FileName="RestaurantRaterTest\RestaurantRaterTest.cs" Line="13" Column="13" />
+      <File FileName="RestaurantRater\Data\IRestaurantDataService.cs" Line="42" Column="42" />
+      <File FileName="RestaurantRater\Data\RestaurantJsonService.cs" Line="54" Column="54" />
+      <File FileName="RestaurantRater\Models\Restaurant.cs" Line="5" Column="5" />
+      <File FileName="RestaurantRater\Models\Constants.cs" Line="2" Column="2" />
+      <File FileName="RestaurantRater\Properties\AndroidManifest.xml" Line="12" Column="12" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="RestaurantRater" expanded="True">
+            <Node name="Data" expanded="True" />
+            <Node name="Models" expanded="True" />
+            <Node name="Properties" expanded="True" />
+          </Node>
+          <Node name="RestaurantRaterTest" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.RestaurantRater MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
+</Properties>
