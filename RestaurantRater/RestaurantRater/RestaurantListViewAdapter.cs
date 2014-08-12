@@ -17,6 +17,24 @@ namespace RestaurantRater
         public RestaurantListViewAdapter(Activity context)
         {
             this.context = context;
+
+            // TODO: remove this after we get a menu to add actual items!
+            var current = RestaurantDataService.Service.GetRestaurants();
+            foreach (var curRest in current)
+            {
+                RestaurantDataService.Service.DeleteRestaurant(curRest.Id.Value);
+            }
+            var restaurant = new Restaurant
+                {
+                    Name = "TestRestaurant",
+                    Address = "123 That St",
+                    Latitude = 1.0,
+                    Longitude = -1.0,
+                    TotalRating = 10,
+                    NumberOfRatings = 4,
+                    WebsiteUrl = "www.google.com"
+                };
+            RestaurantDataService.Service.SaveRestaurant(restaurant);
         }
 
         #region implemented abstract members of BaseAdapter
@@ -49,7 +67,7 @@ namespace RestaurantRater
             else
                 view.FindViewById<TextView>(Resource.Id.addressTextView).Text = restaurant.Address;
 
-            view.FindViewById<TextView>(Resource.Id.ratingTextView).Text = String.Format("{0:0,0.0}", (restaurant.TotalRating / restaurant.NumberOfRatings));
+            view.FindViewById<TextView>(Resource.Id.ratingTextView).Text = String.Format("{0:0.0}", ((double)restaurant.TotalRating / (double)restaurant.NumberOfRatings));
 
             return view;
         }
