@@ -25,6 +25,30 @@ namespace RestaurantRater
             restaurantListViewAdapter = new RestaurantListViewAdapter(this);
             restaurantListView.Adapter = restaurantListViewAdapter;
         }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.RestaurantListMenu, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.actionNewRestaurant:
+                    // TODO: open a detail activity
+                    //StartActivity(typeof(POIDetailActivity));
+                    Console.WriteLine("new restaurant clicked!");
+                    return true;
+                case Resource.Id.actionRefreshRestaurants:
+                    Data.RestaurantDataService.Service.RefreshCache();
+                    restaurantListViewAdapter.NotifyDataSetChanged();
+                    return true;
+                default:
+                    return base.OnOptionsItemSelected(item);
+            }
+        }
     }
 }
 

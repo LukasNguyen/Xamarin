@@ -67,11 +67,15 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\RestaurantList.axml" />
     <AndroidResource Include="Resources\layout\RestaurantListItem.axml" />
+    <AndroidResource Include="Resources\menu\RestaurantListMenu.xml" />
+    <AndroidResource Include="Resources\drawable\ic_new.png" />
+    <AndroidResource Include="Resources\drawable\ic_refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Data\" />
+    <Folder Include="Resources\menu\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="json.net">
