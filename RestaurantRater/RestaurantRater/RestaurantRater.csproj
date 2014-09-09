@@ -70,6 +70,7 @@
     <AndroidResource Include="Resources\menu\RestaurantListMenu.xml" />
     <AndroidResource Include="Resources\drawable\ic_new.png" />
     <AndroidResource Include="Resources\drawable\ic_refresh.png" />
+    <AndroidResource Include="Resources\layout\RestaurantDetail.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

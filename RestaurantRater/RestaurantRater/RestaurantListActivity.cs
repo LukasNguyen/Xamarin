@@ -38,8 +38,8 @@ namespace RestaurantRater
             {
                 case Resource.Id.actionNewRestaurant:
                     // TODO: open a detail activity
-                    //StartActivity(typeof(POIDetailActivity));
-                    Console.WriteLine("new restaurant clicked!");
+                    //StartActivity(typeof(RestaurantDetailActivity));
+
                     return true;
                 case Resource.Id.actionRefreshRestaurants:
                     Data.RestaurantDataService.Service.RefreshCache();
